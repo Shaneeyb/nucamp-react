@@ -1,0 +1,23 @@
+- Before making any changes, pull down any change from github origin.
+
+$ git pull origin main
+
+- This will sync up your local files with any changes from the remote (github)
+- Make file changes.
+- When you are ready to commit the changes and push to github.
+
+$ git add .
+$ git commit -m 'a commit message'
+$ git push origin main
+
+- Now go to your other computer, and repeat these steps.
+
+- This is your workflow.
+Make changes on computer one.
+Commit and push changes to github.
+Move to computer two.
+Pull changes from github.
+Making file changes.
+Commit and push to github.
+Move to computer one. 
+Repeat.....
