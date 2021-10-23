@@ -18,7 +18,7 @@ class CommentForm extends Component {
         };
 
         this.toggleModal = this.toggleModal.bind(this);
-        this.SumbitCommentAlert = this.SumbitCommentAlert.bind(this);
+        this.SubmitCommentAlert = this.SubmitCommentAlert.bind(this);
     }
 
     toggleModal() {
@@ -27,7 +27,7 @@ class CommentForm extends Component {
         });
     }
 
-    SumbitCommentAlert(values) {
+    SubmitCommentAlert(values) {
         console.log("Current state is: " + JSON.stringify(values));
         alert("Current state is: " + JSON.stringify(values));
     }
@@ -40,7 +40,7 @@ class CommentForm extends Component {
                  <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
                     <ModalBody>
-                        <LocalForm onSubmit={this.SumbitCommentAlert}>
+                        <LocalForm onSubmit={this.SubmitCommentAlert}>
                             <div className="form-group">
                                 <Label htmlFor="rating">Rating</Label>
                                 <Control.select model=".rating" id="rating" name="rating" className="form-control">
