@@ -1,5 +1,6 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
+import thunk from 'redux-thunk';
 
 
 
@@ -59,6 +60,23 @@ export const addComments = comments => ({
 
 export const addComment = comment => ({
     type: ActionTypes.ADD_COMMENT,
+    payload: comment
+})
+
+
+
+export const partnersFailed = errMess => ({
+    type: ActionTypes.PARTNERS_FAILED,
+    payload: errMess
+});
+
+export const partnersLoading = comments => ({
+    type: ActionTypes.PARTNERS_LOADING,
+    payload: comments
+});
+
+export const addPartners = comment => ({
+    type: ActionTypes.ADD_PARTNERS,
     payload: comment
 })
 
