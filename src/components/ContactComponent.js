@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, Form, Errors, actions } from 'react-redux-form';
+import { FadeTransform, Fade } from 'react-animation-components';
 
 
 const required = val => val && val.length;
@@ -30,49 +31,65 @@ class Contact extends Component {
                 email: false
             }
         };
-
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     handleSubmit(values) {
-        console.log("Current state is: " + JSON.stringify(values));
-        alert("Current state is: " + JSON.stringify(values));
+        this.props.postFeedback(values);
         this.props.resetFeedbackForm();
     }
 
     render() {
 
         return (
-            <div className="container" >
+            <div className="container">
                 <div className="row">
                     <div className="col">
                         <Breadcrumb>
                             <BreadcrumbItem><Link to="/home">Home</Link></BreadcrumbItem>
                             <BreadcrumbItem active>Contact Us</BreadcrumbItem>
                         </Breadcrumb>
+                        
+                        <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                         <h2>Contact Us</h2>
-                        <hr />
+                        </FadeTransform>
                     </div>
                 </div>
-
+                
                 <div className="row row-content align-items-center">
                     <div className="col-sm-4">
+                    <Fade in>
                         <h5>Our Address</h5>
                         <address>
                             1 Nucamp Way<br />
                             Seattle, WA 98001<br />
-                            U.S.A.
+                            U.S.A.  
                         </address>
+                        
+                    </Fade>
                     </div>
+                    
                     <div className="col">
+                    <Fade in>
                         <a role="button" className="btn btn-link" href="tel:+12065551234"><i className="fa fa-phone" /> 1-206-555-1234</a><br />
                         <a role="button" className="btn btn-link" href="mailto:fakeemail@fakeemail.co"><i className="fa fa-envelope-o" /> campsites@nucamp.co</a>
+                    </Fade>
                     </div>
+                   
                 </div>
                 <div className="row row-content">
                     <div className="col-12">
+                    <FadeTransform
+                in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
                         <h2>Send us your Feedback</h2>
+                        </FadeTransform>
                         <hr />
                     </div>
                     <div className="col-md-10">
@@ -80,11 +97,11 @@ class Contact extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="firstName" md={2}>First Name</Label>
                                 <Col md={10}>
-                                     <Control.text model=".firstName" id="firstName" name="firstName"
+                                    <Control.text model=".firstName" id="firstName" name="firstName"
                                         placeholder="First Name"
                                         className="form-control"
                                         validators={{
-                                            required, 
+                                            required,
                                             minLength: minLength(2),
                                             maxLength: maxLength(15)
                                         }}
@@ -201,7 +218,10 @@ class Contact extends Component {
                             <Row className="form-group">
                                 <Label htmlFor="feedback" md={2}>Your Feedback</Label>
                                 <Col md={10}>
-                                    <Control.textarea model=".feedback" id="feedback" name="feedback"
+                                    <Control.textarea
+                                        model=".feedback"
+                                        id="feedback"
+                                        name="feedback"
                                         rows="12"
                                         className="form-control"
                                     />

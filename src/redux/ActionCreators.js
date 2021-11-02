@@ -1,7 +1,5 @@
-import * as ActionTypes from "./ActionTypes";
-import { baseUrl } from "../shared/baseUrl";
-import thunk from 'redux-thunk';
-
+import * as ActionTypes from './ActionTypes';
+import { baseUrl } from '../shared/baseUrl';
 
 
 export const fetchCampsites = () => dispatch => {
@@ -26,6 +24,20 @@ export const fetchCampsites = () => dispatch => {
         .then(campsites => dispatch(addCampsites(campsites)))
         .catch(error => dispatch(campsitesFailed(error.message)));
 };
+
+export const campsitesLoading = () => ({
+    type: ActionTypes.CAMPSITES_LOADING
+});
+
+export const campsitesFailed = errMess => ({
+    type: ActionTypes.CAMPSITES_FAILED,
+    payload: errMess
+});
+
+export const addCampsites = campsites => ({
+    type: ActionTypes.ADD_CAMPSITES,
+    payload: campsites
+});
 
 export const fetchComments = () => dispatch => {
     return fetch(baseUrl + 'comments')
@@ -54,31 +66,14 @@ export const commentsFailed = errMess => ({
 });
 
 export const addComments = comments => ({
-    type: ActionTypes.ADD_COMMENT,
+    type: ActionTypes.ADD_COMMENTS,
     payload: comments
 });
 
 export const addComment = comment => ({
     type: ActionTypes.ADD_COMMENT,
     payload: comment
-})
-
-
-
-export const partnersFailed = errMess => ({
-    type: ActionTypes.PARTNERS_FAILED,
-    payload: errMess
 });
-
-export const partnersLoading = comments => ({
-    type: ActionTypes.PARTNERS_LOADING,
-    payload: comments
-});
-
-export const addPartners = comment => ({
-    type: ActionTypes.ADD_PARTNERS,
-    payload: comment
-})
 
 export const postComment = (campsiteId, rating, author, text) => dispatch => {
     
@@ -153,20 +148,68 @@ export const addPromotions = promotions => ({
     payload: promotions
 });
 
+export const fetchPartners = () => dispatch => {
+    dispatch(partnersLoading());
 
+    return fetch(baseUrl + 'partners')
+        .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            error => {
+                const errMess = new Error(error.message);
+                throw errMess;
+            }
+        )
+        .then(response => response.json())
+        .then(partners => dispatch(addPartners(partners)))
+        .catch(error => dispatch(partnersFailed(error.message)));
+};
 
-export const campsitesLoading = () => ({
-    type: ActionTypes.CAMPSITES_LOADING
+export const partnersLoading = () => ({
+    type: ActionTypes.PARTNERS_LOADING
 });
 
-
-export const campsitesFailed = errMess => ({
-    type: ActionTypes.CAMPSITES_FAILED,
+export const partnersFailed = errMess => ({
+    type: ActionTypes.PARTNERS_FAILED,
     payload: errMess
 });
 
-
-export const addCampsites = campsites => ({
-    type: ActionTypes.ADD_CAMPSITES,
-    payload: campsites
+export const addPartners = partners => ({
+    type: ActionTypes.ADD_PARTNERS,
+    payload: partners
 });
+
+
+export const postFeedback = (feedback) => () => {
+
+    return fetch(baseUrl + 'feedback', {
+        method: "POST",
+        body: JSON.stringify(feedback),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            console.log('Thank you for your feedback' + JSON.stringify(response));
+            alert('Thank you for your feedback' + JSON.stringify(response));
+        })
+        .catch(error => {
+            console.error(error)
+        });
+};
